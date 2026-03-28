@@ -1,63 +1,291 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>オーダーメイド・ケータリング | 企業の懇親会・祝賀会</title>
-    <style>
-        body { margin: 0; font-family: "Helvetica Neue", Arial, sans-serif; color: #333; background-color: #fdfdfd; }
-        .hero {
-            height: 90vh;
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
-                        url('https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=1600&q=80');
-            background-size: cover; background-position: center;
-            display: flex; align-items: center; justify-content: center; color: #fff; text-align: center;
+import { useState, useEffect, useRef } from "react";
+
+const CONFIG = {
+  brandName: "UNE TABLE",
+  tagline: "華やかな装いを あなただけの空間へ",
+};
+
+const services = [
+  { key: "cocktail", title: "Cocktail Party", sub: "カクテルパーティー", desc: "カジュアルな会合を盛り上げる、彩り豊かな演出。フィンガーフードで会話も弾む特別な空間。", icon: "◇" },
+  { key: "standing", title: "Standing Reception", sub: "スタンディングレセプション", desc: "大切なビジネスシーンに適した洗練されたスタイル。ブランドイメージを高める立食スタイルを提供。", icon: "◈" },
+  { key: "private", title: "Private Dining", sub: "プライベートダイニング", desc: "オーダーメイドのレストラン。すべてにこだわった特別な空間で、プライベートな贅沢を。", icon: "◉" },
+];
+
+export default function Pattern2() {
+  const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState({});
+  const sectionRefs = useRef({});
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) setVisible(v => ({ ...v, [e.target.id]: true })); }),
+      { threshold: 0.15 }
+    );
+    Object.values(sectionRefs.current).forEach(el => el && obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+
+  const setRef = (id) => (el) => { sectionRefs.current[id] = el; };
+
+  return (
+    <div style={{ fontFamily: "'Playfair Display', 'Noto Serif JP', Georgia, serif", background: "#faf7f2", color: "#2c2416", minHeight: "100vh", overflowX: "hidden" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Noto+Serif+JP:wght@200;300;400&family=Didact+Gothic&family=Jost:wght@200;300;400&display=swap');
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: #faf7f2; }
+        ::-webkit-scrollbar-thumb { background: #c4956a; }
+
+        .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.9s ease, transform 0.9s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        .nav-link-light { font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; text-decoration: none; color: #8a7060; transition: color 0.3s; font-weight: 300; }
+        .nav-link-light:hover { color: #c4956a; }
+
+        .service-item { padding: 40px; border-bottom: 1px solid #e8ddd0; transition: background 0.4s; cursor: pointer; }
+        .service-item:hover { background: #f3ede3; }
+        .service-item:first-child { border-top: 1px solid #e8ddd0; }
+
+        .gallery-mosaic { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 300px 300px; gap: 12px; }
+        .gm-1 { grid-row: 1 / 3; }
+
+        .input-elegant { width: 100%; background: transparent; border: none; border-bottom: 1px solid #c4956a55; padding: 12px 0; font-family: 'Noto Serif JP', serif; font-size: 14px; font-weight: 200; color: #2c2416; outline: none; transition: border-color 0.3s; }
+        .input-elegant:focus { border-bottom-color: #c4956a; }
+        .input-elegant::placeholder { color: #b8a898; }
+
+        .pill-tag { display: inline-block; border: 1px solid #c4956a55; padding: 4px 16px; font-family: 'Jost', sans-serif; font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: #c4956a; border-radius: 50px; margin-bottom: 20px; }
+
+        .submit-btn { background: #2c2416; color: #faf7f2; border: none; padding: 16px 56px; font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; cursor: pointer; transition: all 0.4s; }
+        .submit-btn:hover { background: #c4956a; }
+
+        .divider-ornament { display: flex; align-items: center; gap: 16px; margin: 32px 0; }
+        .divider-ornament::before, .divider-ornament::after { content: ''; flex: 1; height: 1px; background: #e8ddd0; }
+
+        @media (max-width: 768px) {
+          .gallery-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+          .gm-1 { grid-row: auto; }
         }
-        .hero-content h1 { font-size: 4rem; font-weight: bold; letter-spacing: 0.1em; margin-bottom: 20px; }
-        .hero-content p { font-size: 1.8rem; margin-bottom: 40px; }
-        .btn {
-            background: linear-gradient(45deg, #d4af37, #f9f295, #d4af37);
-            color: #333; padding: 20px 50px; text-decoration: none; font-weight: bold;
-            border-radius: 50px; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-        .section { padding: 100px 20px; text-align: center; max-width: 1200px; margin: 0 auto; }
-        h2 { font-size: 2.5rem; color: #b8860b; margin-bottom: 50px; position: relative; }
-        h2::after { content: ""; display: block; width: 60px; height: 3px; background: #b8860b; margin: 20px auto; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
-        .card { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: 0.3s; }
-        .card:hover { transform: translateY(-10px); }
-        .card img { width: 100%; height: 250px; object-fit: cover; }
-        .card h3 { padding: 20px; color: #333; }
-        .card p { padding: 0 20px 30px; color: #666; font-size: 0.9rem; }
-    </style>
-</head>
-<body>
-    <section class="hero">
-        <div class="hero-content">
-            <h1>オーダーメイドのケータリング</h1>
-            <p>特別な懇親会を、最高級の華やかさで。</p>
-            <a href="#" class="btn">お問い合わせはこちら</a>
+      `}</style>
+
+      {/* Nav */}
+      <nav style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+        padding: scrolled ? "14px 56px" : "24px 56px",
+        transition: "all 0.6s ease",
+        background: scrolled ? "rgba(250,247,242,0.96)" : "transparent",
+        backdropFilter: scrolled ? "blur(8px)" : "none",
+        borderBottom: scrolled ? "1px solid #e8ddd0" : "none",
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+      }}>
+        <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 20, letterSpacing: "0.25em", color: "#2c2416", fontStyle: "italic" }}>
+          {CONFIG.brandName}
         </div>
-    </section>
-    <section class="section">
-        <h2>Service Menu</h2>
-        <div class="grid">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1530101978247-2c78493045ec?auto=format&fit=crop&w=600&q=80">
-                <h3>周年記念パーティー</h3>
-                <p>企業のブランド価値を高める、格調高い空間演出と料理。</p>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=600&q=80">
-                <h3>季節のフィンガーフード</h3>
-                <p>厳選された旬の食材を、宝石のような一皿に仕上げます。</p>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=600&q=80">
-                <h3>オーダーコーディネート</h3>
-                <p>コンセプトに合わせ、会場設営から全てフルオーダー可能。</p>
-            </div>
+        <div style={{ display: "flex", gap: 36, alignItems: "center" }}>
+          {["Concept", "Services", "Gallery", "Menu"].map(item => (
+            <a key={item} href={`#${item.toLowerCase()}`} className="nav-link-light">{item}</a>
+          ))}
+          <a href="#contact" style={{ fontFamily: "'Jost', sans-serif", fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", textDecoration: "none", color: "#faf7f2", background: "#2c2416", padding: "10px 24px", transition: "background 0.3s" }} onMouseEnter={e => e.target.style.background = "#c4956a"} onMouseLeave={e => e.target.style.background = "#2c2416"}>
+            Reserve
+          </a>
         </div>
-    </section>
-</body>
-</html>
+      </nav>
+
+      {/* Hero — Split Layout */}
+      <section style={{ minHeight: "100vh", display: "grid", gridTemplateColumns: "1fr 1fr", position: "relative" }}>
+        {/* Left: Text */}
+        <div style={{
+          display: "flex", flexDirection: "column", justifyContent: "center",
+          padding: "140px 64px 80px",
+          background: "#faf7f2",
+        }}>
+          <div className="pill-tag" style={{ alignSelf: "flex-start", marginBottom: 32 }}>Fine Catering & Events</div>
+
+          <h1 style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: "clamp(48px, 6vw, 80px)",
+            fontWeight: 400,
+            fontStyle: "italic",
+            lineHeight: 1.1,
+            color: "#1a1208",
+            marginBottom: 0,
+          }}>
+            Une<br />
+            <span style={{ color: "#c4956a" }}>Table</span><br />
+            <span style={{ fontSize: "0.65em", fontStyle: "normal", fontWeight: 300, letterSpacing: "0.05em" }}>特別な空間へ</span>
+          </h1>
+
+          <div style={{ display: "flex", alignItems: "center", gap: 16, margin: "40px 0" }}>
+            <div style={{ height: 1, width: 48, background: "#c4956a" }} />
+            <p style={{ fontFamily: "'Jost', sans-serif", fontSize: 11, letterSpacing: "0.25em", color: "#8a7060", textTransform: "uppercase", fontWeight: 300 }}>
+              Curated Hospitality
+            </p>
+          </div>
+
+          <p style={{ fontFamily: "'Noto Serif JP', serif", fontSize: 14, fontWeight: 200, lineHeight: 2.2, color: "#6a5a4a", maxWidth: 380, marginBottom: 48 }}>
+            {CONFIG.tagline}。食と空間が織りなす、忘れられない体験をあなたとともに創造します。
+          </p>
+
+          <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+            <a href="#contact" className="submit-btn" style={{ textDecoration: "none", display: "inline-block" }}>
+              Reservation
+            </a>
+            <a href="#concept" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "'Jost', sans-serif", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", textDecoration: "none", color: "#8a7060", padding: "16px 0", fontWeight: 300 }}>
+              Discover More <span>→</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Right: Visual */}
+        <div style={{ position: "relative", background: "#2c2416", overflow: "hidden" }}>
+          <div style={{
+            position: "absolute", inset: 0,
+            background: "linear-gradient(135deg, #2c2416 0%, #4a3420 40%, #2c1e10 100%)",
+          }} />
+          {/* Decorative pattern */}
+          <div style={{ position: "absolute", inset: 0, opacity: 0.06 }}>
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} style={{
+                position: "absolute", top: `${i * 14}%`, left: "-20%", right: "-20%",
+                height: 1, background: "#c4956a", transform: `rotate(${-15 + i * 3}deg)`,
+              }} />
+            ))}
+          </div>
+          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8 }}>
+            <div style={{ width: 120, height: 120, border: "1px solid #c4956a33", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 32, color: "#c4956a44", fontStyle: "italic" }}>ut</span>
+            </div>
+            <div style={{ fontFamily: "'Jost', sans-serif", fontSize: 9, letterSpacing: "0.5em", color: "#c4956a44", textTransform: "uppercase", marginTop: 16 }}>est. 2020</div>
+          </div>
+          {/* Photo placeholder strips */}
+          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "45%", background: "linear-gradient(180deg, transparent, #1a0e06)" }} />
+        </div>
+
+        {/* Scroll */}
+        <div style={{ position: "absolute", bottom: 40, left: "25%", transform: "translateX(-50%)", display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ width: 1, height: 40, background: "#c4956a" }} />
+          <span style={{ fontFamily: "'Jost', sans-serif", fontSize: 9, letterSpacing: "0.3em", color: "#b8a898", textTransform: "uppercase" }}>Scroll down</span>
+        </div>
+      </section>
+
+      {/* Concept */}
+      <section id="concept" style={{ padding: "120px 10vw", background: "#f5f0e8" }}>
+        <div ref={setRef("concept")} id="concept-inner" className={`fade-in ${visible["concept-inner"] ? "visible" : ""}`} style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 2fr", gap: 80, alignItems: "center" }}>
+          <div>
+            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(80px, 12vw, 160px)", fontWeight: 400, color: "#e8ddd0", lineHeight: 1, fontStyle: "italic", marginBottom: 0 }}>C</div>
+          </div>
+          <div>
+            <div className="pill-tag">Our Concept</div>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(28px, 3.5vw, 42px)", fontWeight: 400, fontStyle: "italic", color: "#1a1208", lineHeight: 1.4, marginBottom: 24 }}>
+              Every Detail,<br />Thoughtfully Arranged
+            </h2>
+            <p style={{ fontFamily: "'Noto Serif JP', serif", fontSize: 14, fontWeight: 200, lineHeight: 2.4, color: "#6a5a4a", marginBottom: 16 }}>
+              食の芸術と空間演出が融合した、唯一無二のテーブル体験。素材の美しさを活かした料理と、細部まで計算された装飾が生み出す特別なひとときを、あなたのために。
+            </p>
+            <p style={{ fontFamily: "'Noto Serif JP', serif", fontSize: 14, fontWeight: 200, lineHeight: 2.4, color: "#6a5a4a" }}>
+              どんな場面でも、UNE TABLEはあなたの想いを形にします。ウェディング、コーポレートイベント、プライベートディナー。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Services */}
+      <section id="services" style={{ padding: "120px 10vw", background: "#faf7f2" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 56 }}>
+            <div>
+              <div className="pill-tag">Services</div>
+              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(28px, 3.5vw, 42px)", fontWeight: 400, fontStyle: "italic", color: "#1a1208" }}>Our Offerings</h2>
+            </div>
+            <a href="#contact" style={{ fontFamily: "'Jost', sans-serif", fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", textDecoration: "none", color: "#c4956a", fontWeight: 300 }}>
+              All Services →
+            </a>
+          </div>
+          <div>
+            {services.map((s, i) => (
+              <div key={s.key} className="service-item">
+                <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
+                  <span style={{ fontFamily: "'Jost', sans-serif", fontSize: 11, color: "#c4956a", letterSpacing: "0.1em", minWidth: 24 }}>{String(i+1).padStart(2,"0")}</span>
+                  <span style={{ fontSize: 18, color: "#d4b090" }}>{s.icon}</span>
+                  <div style={{ flex: 1 }}>
+                    <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(16px, 2vw, 22px)", fontWeight: 400, color: "#1a1208", marginBottom: 4, fontStyle: "italic" }}>{s.title}</h3>
+                    <p style={{ fontFamily: "'Noto Serif JP', serif", fontSize: 12, fontWeight: 200, color: "#8a7060", letterSpacing: "0.05em" }}>{s.sub}</p>
+                  </div>
+                  <p style={{ fontFamily: "'Noto Serif JP', serif", fontSize: 13, fontWeight: 200, color: "#6a5a4a", lineHeight: 1.8, maxWidth: 320 }}>{s.desc}</p>
+                  <span style={{ color: "#c4956a", fontSize: 18 }}>→</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery */}
+      <section id="gallery" style={{ padding: "120px 10vw", background: "#f5f0e8" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ marginBottom: 48, display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+            <div>
+              <div className="pill-tag">Gallery</div>
+              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(28px, 3.5vw, 42px)", fontWeight: 400, fontStyle: "italic", color: "#1a1208" }}>
+                Moments of Beauty
+              </h2>
+            </div>
+          </div>
+          <div className="gallery-mosaic">
+            {["A","B","C","D","E"].map((letter, i) => (
+              <div key={i} className={i === 0 ? "gm-1" : ""} style={{
+                background: `linear-gradient(${130 + i*25}deg, #d4b090, #b89070, #8a6040)`,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                borderRadius: 2,
+              }}>
+                <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 56, color: "rgba(255,255,255,0.15)", fontStyle: "italic" }}>{letter}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" style={{ padding: "120px 10vw", background: "#2c2416" }}>
+        <div style={{ maxWidth: 800, margin: "0 auto" }}>
+          <div className="pill-tag" style={{ borderColor: "#c4956a55", color: "#c4956a" }}>Reservation</div>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 400, fontStyle: "italic", color: "#faf7f2", marginBottom: 16 }}>
+            Reserve Your<br />Special Moment
+          </h2>
+          <p style={{ fontFamily: "'Noto Serif JP', serif", fontSize: 13, fontWeight: 200, lineHeight: 2.2, color: "#8a7860", marginBottom: 56 }}>
+            特別な空間のご予約・お問い合わせはこちらから。専任スタッフが丁寧にご対応いたします。
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 40px" }}>
+            {["お名前", "メールアドレス", "電話番号", "ご希望日時"].map(label => (
+              <div key={label} style={{ marginBottom: 32 }}>
+                <div style={{ fontFamily: "'Jost', sans-serif", fontSize: 9, letterSpacing: "0.3em", color: "#6a5a3a", textTransform: "uppercase", marginBottom: 8 }}>{label}</div>
+                <input className="input-elegant" style={{ color: "#e8dcc8", borderBottomColor: "#3a3020" }} placeholder="" />
+              </div>
+            ))}
+          </div>
+          <div style={{ marginBottom: 40 }}>
+            <div style={{ fontFamily: "'Jost', sans-serif", fontSize: 9, letterSpacing: "0.3em", color: "#6a5a3a", textTransform: "uppercase", marginBottom: 8 }}>ご要望・メッセージ</div>
+            <textarea className="input-elegant" rows={4} style={{ color: "#e8dcc8", borderBottomColor: "#3a3020", resize: "none" }} />
+          </div>
+          <button className="submit-btn" style={{ background: "#c4956a", color: "#faf7f2" }}
+            onMouseEnter={e => e.currentTarget.style.background = "#faf7f2"}
+            onMouseLeave={e => e.currentTarget.style.background = "#c4956a"}>
+            Send Inquiry
+          </button>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer style={{ padding: "40px 10vw", background: "#1a1208", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+        <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, letterSpacing: "0.2em", color: "#4a3a28", fontStyle: "italic" }}>{CONFIG.brandName}</div>
+        <p style={{ fontFamily: "'Jost', sans-serif", fontSize: 10, letterSpacing: "0.2em", color: "#3a2e1e", fontWeight: 300 }}>© 2024 UNE TABLE. All rights reserved.</p>
+      </footer>
+    </div>
+  );
+}
