@@ -1,310 +1,125 @@
-import { useState, useEffect } from "react";
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNE TABLE | 華やかな装いを あなただけの空間へ</title>
+    <!-- ReactとBabel（Reactをブラウザで動かすためのライブラリ） -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
 
-const CONFIG = {
-  brandName: "UNE TABLE",
-  tagline: "華やかな装いを あなただけの空間へ",
-};
+    <script type="text/babel">
+        const { useState, useEffect } = React;
 
-const services = [
-  { key: "cocktail", title: "Cocktail Party", sub: "カクテルパーティー", desc: "カジュアルな会合を盛り上げる、彩り豊かな演出。フィンガーフードで会話も弾む特別な空間。" },
-  { key: "standing", title: "Standing Reception", sub: "スタンディングレセプション", desc: "大切なビジネスシーンに適した洗練されたスタイル。ブランドイメージを高める立食スタイルを提供。" },
-  { key: "private", title: "Private Dining", sub: "プライベートダイニング", desc: "オーダーメイドのレストラン。すべてにこだわった特別な空間で、プライベートな贅沢を。" },
-];
+        const CONFIG = {
+            brandName: "UNE TABLE",
+            tagline: "華やかな装いを あなただけの空間へ",
+        };
 
-export default function Pattern3() {
-  const [scrolled, setScrolled] = useState(false);
-  const [hoveredService, setHoveredService] = useState(null);
-  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
+        const services = [
+            { key: "cocktail", title: "Cocktail Party", sub: "カクテルパーティー", desc: "カジュアルな会合を盛り上げる、彩り豊かな演出。フィンガーフードで会話も弾む特別な空間。" },
+            { key: "standing", title: "Standing Reception", sub: "スタンディングレセプション", desc: "大切なビジネスシーンに適した洗練されたスタイル。ブランドイメージを高める立食スタイルを提供。" },
+            { key: "private", title: "Private Dining", sub: "プライベートダイニング", desc: "オーダーメイドのレストラン。すべてにこだわった特別な空間で、プライベートな贅沢を。" },
+        ];
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+        function Pattern3() {
+            const [scrolled, setScrolled] = useState(false);
+            const [hoveredService, setHoveredService] = useState(null);
+            const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
 
-  useEffect(() => {
-    const move = e => setCursorPos({ x: e.clientX, y: e.clientY });
-    window.addEventListener("mousemove", move);
-    return () => window.removeEventListener("mousemove", move);
-  }, []);
+            useEffect(() => {
+                const onScroll = () => setScrolled(window.scrollY > 60);
+                window.addEventListener("scroll", onScroll);
+                return () => window.removeEventListener("scroll", onScroll);
+            }, []);
 
-  return (
-    <div style={{ fontFamily: "'EB Garamond', 'Noto Serif JP', Georgia, serif", background: "#f8f5f0", color: "#1a1510", minHeight: "100vh", overflowX: "hidden", cursor: "none" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@200;300&family=Bebas+Neue&family=Raleway:wght@100;200;300;400&display=swap');
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        ::-webkit-scrollbar { width: 3px; }
-        ::-webkit-scrollbar-thumb { background: #1a1510; }
+            useEffect(() => {
+                const move = e => setCursorPos({ x: e.clientX, y: e.clientY });
+                window.addEventListener("mousemove", move);
+                return () => window.removeEventListener("mousemove", move);
+            }, []);
 
-        @keyframes heroEnter { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
-        @keyframes lineDraw { from { width: 0; } to { width: 100%; } }
-        @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes pulse { 0%,100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
+            return (
+                <div style={{ fontFamily: "'EB Garamond', 'Noto Serif JP', Georgia, serif", background: "#f8f5f0", color: "#1a1510", minHeight: "100vh", overflowX: "hidden", cursor: "none" }}>
+                    <style>{`
+                        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@200;300&family=Bebas+Neue&family=Raleway:wght@100;200;300;400&display=swap');
+                        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+                        html { scroll-behavior: smooth; }
+                        .hero-inner { animation: heroEnter 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+                        @keyframes heroEnter { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+                        @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+                        .nav-link3 { font-family: 'Raleway', sans-serif; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; text-decoration: none; color: #6a5a4a; transition: color 0.3s; font-weight: 300; }
+                        .nav-link3:hover { color: #1a1510; }
+                        .service-row { display: flex; align-items: center; padding: 32px 0; border-bottom: 1px solid #e0d8cc; transition: all 0.4s; gap: 40px; }
+                        .svc-title { font-family: 'EB Garamond', serif; font-size: clamp(22px, 3vw, 34px); font-weight: 400; font-style: italic; letter-spacing: 0.12em; color: #1a1510; }
+                        .deco-circle { position: absolute; border: 1px solid #c4b8a8; border-radius: 50%; }
+                        .rotating { animation: rotateSlow 20s linear infinite; }
+                        .form-input { background: #f0ebe3; border: none; border-bottom: 2px solid #e0d8cc; padding: 12px 0; width: 100%; outline: none; }
+                        .gallery-row { display: flex; gap: 8px; height: 280px; }
+                        .gallery-row > div { flex: 1; transition: flex 0.6s ease; }
+                        .gallery-row > div:hover { flex: 2.5; }
+                    `}</style>
 
-        .hero-inner { animation: heroEnter 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .deco-line { animation: lineDraw 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards; width: 0; }
+                    <div style={{
+                        position: "fixed", zIndex: 9999, pointerEvents: "none",
+                        left: cursorPos.x - 12, top: cursorPos.y - 12,
+                        width: 24, height: 24, borderRadius: "50%",
+                        border: "1px solid #1a1510", transition: "left 0.08s, top 0.08s", mixBlendMode: "multiply",
+                    }} />
 
-        .nav-link3 { font-family: 'Raleway', sans-serif; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; text-decoration: none; color: #6a5a4a; transition: color 0.3s; font-weight: 300; }
-        .nav-link3:hover { color: #1a1510; }
+                    <nav style={{
+                        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+                        padding: scrolled ? "14px 8vw" : "28px 8vw", transition: "all 0.6s",
+                        background: scrolled ? "rgba(248,245,240,0.96)" : "transparent",
+                        display: "flex", alignItems: "center", justifyContent: "space-between",
+                    }}>
+                        <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 22, letterSpacing: "0.5em" }}>{CONFIG.brandName}</div>
+                        <div style={{ display: "flex", gap: 40 }}>
+                            {["Concept", "Services", "Gallery", "Menu"].map(item => <a key={item} href="#" className="nav-link3">{item}</a>)}
+                        </div>
+                    </nav>
 
-        .service-row { display: flex; align-items: center; padding: 32px 0; border-bottom: 1px solid #e0d8cc; transition: all 0.4s; cursor: none; gap: 40px; }
-        .service-row:first-child { border-top: 1px solid #e0d8cc; }
-        .service-row:hover .svc-title { letter-spacing: 0.25em; }
-        .service-row:hover .svc-num { color: #1a1510; }
-        .service-row:hover .svc-arrow { opacity: 1; transform: translateX(0); }
+                    <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", padding: "100px 8vw", position: "relative", overflow: "hidden" }}>
+                        <div className="hero-inner" style={{ position: "relative", zIndex: 2 }}>
+                            <h1 style={{ fontFamily: "'EB Garamond', serif", fontSize: "clamp(64px, 10vw, 130px)", fontWeight: 300, lineHeight: 0.95 }}>
+                                <span style={{ display: "block", fontStyle: "italic" }}>Une</span>
+                                <span style={{ display: "block" }}>Table</span>
+                            </h1>
+                            <p style={{ marginTop: 24, letterSpacing: "0.2em", color: "#6a5a4a" }}>{CONFIG.tagline}</p>
+                            <a href="#contact" style={{ display: "inline-block", marginTop: 40, padding: "15px 50px", background: "#1a1510", color: "#fff", textDecoration: "none", fontSize: 10, letterSpacing: "0.3em" }}>Reservation</a>
+                        </div>
+                    </section>
 
-        .svc-num { font-family: 'Bebas Neue', sans-serif; font-size: 13px; color: #c4b8a8; letter-spacing: 0.2em; min-width: 36px; transition: color 0.4s; }
-        .svc-title { font-family: 'EB Garamond', serif; font-size: clamp(22px, 3vw, 34px); font-weight: 400; font-style: italic; letter-spacing: 0.12em; transition: letter-spacing 0.4s; color: #1a1510; }
-        .svc-arrow { opacity: 0; transform: translateX(-8px); transition: all 0.4s; color: #6a5a4a; font-size: 18px; }
+                    <section id="services" style={{ padding: "120px 8vw" }}>
+                        <h2 style={{ fontFamily: "'EB Garamond', serif", fontSize: 42, fontStyle: "italic", marginBottom: 60 }}>Services</h2>
+                        {services.map((s, i) => (
+                            <div key={s.key} className="service-row">
+                                <div style={{ minWidth: 40, fontFamily: "'Bebas Neue'" }}>0{i+1}</div>
+                                <div style={{ flex: 1 }}><div className="svc-title">{s.title}</div></div>
+                                <p style={{ maxWidth: 400, fontSize: 13 }}>{s.desc}</p>
+                            </div>
+                        ))}
+                    </section>
 
-        .deco-circle { position: absolute; border: 1px solid #c4b8a8; border-radius: 50%; }
-        .rotating { animation: rotateSlow 20s linear infinite; }
-
-        .mquote { font-family: 'EB Garamond', serif; font-size: clamp(24px, 3.5vw, 42px); font-style: italic; font-weight: 300; line-height: 1.6; color: #1a1510; }
-
-        .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px, 6vw, 72px); letter-spacing: 0.05em; color: #1a1510; }
-        .stat-label { font-family: 'Raleway', sans-serif; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: #8a7a6a; font-weight: 300; }
-
-        .form-field { display: flex; flex-direction: column; gap: 8px; }
-        .form-label { font-family: 'Raleway', sans-serif; font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase; color: #8a7a6a; font-weight: 300; }
-        .form-input { background: #f0ebe3; border: none; border-bottom: 2px solid #e0d8cc; padding: 12px 0; font-family: 'Noto Serif JP', serif; font-size: 13px; font-weight: 200; color: #1a1510; outline: none; transition: border-color 0.3s; }
-        .form-input:focus { border-bottom-color: #1a1510; }
-
-        .deco-text { font-family: 'Bebas Neue', sans-serif; font-size: clamp(80px, 12vw, 160px); letter-spacing: 0.08em; color: #e8e0d4; line-height: 1; pointer-events: none; user-select: none; }
-
-        .gallery-row { display: flex; gap: 8px; height: 280px; }
-        .gallery-row > div { flex: 1; transition: flex 0.6s ease; cursor: none; }
-        .gallery-row > div:hover { flex: 2.5; }
-      `}</style>
-
-      {/* Custom Cursor */}
-      <div style={{
-        position: "fixed", zIndex: 9999, pointerEvents: "none",
-        left: cursorPos.x - 12, top: cursorPos.y - 12,
-        width: 24, height: 24, borderRadius: "50%",
-        border: "1px solid #1a1510", transition: "left 0.08s, top 0.08s",
-        mixBlendMode: "multiply",
-      }} />
-
-      {/* Nav */}
-      <nav style={{
-        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-        padding: scrolled ? "14px 8vw" : "28px 8vw",
-        transition: "all 0.6s",
-        background: scrolled ? "rgba(248,245,240,0.96)" : "transparent",
-        backdropFilter: scrolled ? "blur(8px)" : "none",
-        borderBottom: scrolled ? "1px solid #e0d8cc" : "none",
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-      }}>
-        <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 22, letterSpacing: "0.5em", color: "#1a1510" }}>
-          {CONFIG.brandName}
-        </div>
-        <div style={{ display: "flex", gap: 40, alignItems: "center" }}>
-          {["Concept", "Services", "Gallery", "Menu"].map(item => (
-            <a key={item} href={`#${item.toLowerCase()}`} className="nav-link3">{item}</a>
-          ))}
-          <a href="#contact" style={{
-            fontFamily: "'Raleway', sans-serif", fontSize: 10, letterSpacing: "0.3em",
-            textTransform: "uppercase", textDecoration: "none", fontWeight: 300,
-            color: "#f8f5f0", background: "#1a1510", padding: "11px 28px",
-            transition: "opacity 0.3s",
-          }}>Reservation</a>
-        </div>
-      </nav>
-
-      {/* Hero — Full Bleed Typography */}
-      <section style={{
-        minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center",
-        padding: "100px 8vw 60px", position: "relative", overflow: "hidden",
-        background: "linear-gradient(135deg, #f8f5f0 60%, #ede7dc 100%)",
-      }}>
-        {/* Deco elements */}
-        <div className="deco-circle" style={{ width: 500, height: 500, top: "-100px", right: "-100px", opacity: 0.3 }} />
-        <div className="deco-circle rotating" style={{ width: 280, height: 280, top: "10%", right: "8%", opacity: 0.2 }} />
-        <div className="deco-circle" style={{ width: 120, height: 120, bottom: "15%", left: "5%", opacity: 0.25 }} />
-
-        <div className="hero-inner" style={{ position: "relative", zIndex: 2 }}>
-          <div style={{ fontFamily: "'Raleway', sans-serif", fontSize: 10, letterSpacing: "0.5em", color: "#a09080", textTransform: "uppercase", fontWeight: 300, marginBottom: 32 }}>
-            Fine Catering & Hospitality — Since 2020
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", alignItems: "flex-start", gap: "0 24px" }}>
-            {/* Vertical text */}
-            <div style={{ writingMode: "vertical-rl", transform: "rotate(180deg)", fontFamily: "'Raleway', sans-serif", fontSize: 9, letterSpacing: "0.4em", color: "#c4b8a8", textTransform: "uppercase", paddingTop: 8 }}>
-              Excellence · Elegance · Experience
-            </div>
-
-            <div>
-              <h1 style={{
-                fontFamily: "'EB Garamond', serif",
-                fontSize: "clamp(64px, 10vw, 130px)",
-                fontWeight: 300,
-                lineHeight: 0.95,
-                color: "#1a1510",
-                letterSpacing: "-0.01em",
-                marginBottom: 0,
-              }}>
-                <span style={{ display: "block", fontStyle: "italic" }}>Une</span>
-                <span style={{ display: "block" }}>Table</span>
-              </h1>
-
-              <div className="deco-line" style={{ height: 2, background: "#1a1510", marginTop: 24, marginBottom: 24 }} />
-
-              <p style={{ fontFamily: "'Noto Serif JP', serif", fontSize: "clamp(13px, 1.5vw, 16px)", fontWeight: 200, letterSpacing: "0.2em", color: "#6a5a4a", lineHeight: 2 }}>
-                {CONFIG.tagline}
-              </p>
-            </div>
-          </div>
-
-          <div style={{ display: "flex", gap: 24, marginTop: 56, flexWrap: "wrap" }}>
-            <a href="#contact" style={{
-              display: "inline-block", padding: "15px 52px",
-              background: "#1a1510", color: "#f8f5f0",
-              fontFamily: "'Raleway', sans-serif", fontSize: 10, letterSpacing: "0.35em", textTransform: "uppercase",
-              textDecoration: "none", fontWeight: 300, transition: "background 0.4s",
-            }}>Make Reservation</a>
-            <a href="#concept" style={{
-              display: "inline-flex", alignItems: "center", gap: 12,
-              fontFamily: "'Raleway', sans-serif", fontSize: 10, letterSpacing: "0.35em", textTransform: "uppercase",
-              textDecoration: "none", fontWeight: 300, color: "#1a1510", padding: "15px 0",
-              borderBottom: "2px solid #1a1510",
-            }}>Our Story</a>
-          </div>
-        </div>
-
-        {/* Stats row */}
-        <div style={{ position: "absolute", bottom: 48, right: "8vw", display: "flex", gap: 48 }}>
-          {[["100+", "Events"], ["12", "Cuisines"], ["∞", "Memories"]].map(([num, label]) => (
-            <div key={label} style={{ textAlign: "center" }}>
-              <div className="stat-num">{num}</div>
-              <div className="stat-label">{label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Services */}
-      <section id="services" style={{ padding: "120px 8vw", background: "#f8f5f0" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 64 }}>
-            <h2 style={{ fontFamily: "'EB Garamond', serif", fontSize: "clamp(32px, 4vw, 52px)", fontStyle: "italic", fontWeight: 300, color: "#1a1510" }}>
-              Services
-            </h2>
-            <div className="deco-text" style={{ fontSize: "clamp(40px, 6vw, 80px)" }}>03</div>
-          </div>
-          <div>
-            {services.map((s, i) => (
-              <div
-                key={s.key}
-                className="service-row"
-                onMouseEnter={() => setHoveredService(i)}
-                onMouseLeave={() => setHoveredService(null)}
-              >
-                <span className="svc-num">{String(i+1).padStart(2,"0")}</span>
-                <div style={{ flex: 1 }}>
-                  <div className="svc-title">{s.title}</div>
-                  <div style={{ fontFamily: "'Noto Serif JP', serif", fontSize: 11, fontWeight: 200, color: "#a09080", letterSpacing: "0.05em", marginTop: 4 }}>{s.sub}</div>
+                    <section id="contact" style={{ padding: "120px 8vw", background: "#f0ebe3" }}>
+                        <h2 style={{ fontFamily: "'EB Garamond', serif", fontSize: 42, fontStyle: "italic", marginBottom: 40 }}>Contact</h2>
+                        <div style={{ maxWidth: 600 }}>
+                            <input className="form-input" placeholder="Name" />
+                            <input className="form-input" style={{ marginTop: 20 }} placeholder="Email" />
+                            <textarea className="form-input" style={{ marginTop: 20, height: 100 }} placeholder="Message" />
+                            <button style={{ marginTop: 30, padding: "15px 60px", background: "#1a1510", color: "#fff", border: "none" }}>Send</button>
+                        </div>
+                    </section>
                 </div>
-                <p style={{ fontFamily: "'Noto Serif JP', serif", fontSize: 13, fontWeight: 200, lineHeight: 1.9, color: "#6a5a4a", maxWidth: 360 }}>{s.desc}</p>
-                <span className="svc-arrow">→</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            );
+        }
 
-      {/* Quote Section */}
-      <section style={{ padding: "120px 8vw", background: "#1a1510", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: "-40px", right: "-40px", opacity: 0.04 }}>
-          <div className="deco-text" style={{ fontSize: "clamp(200px, 30vw, 400px)", color: "#f8f5f0" }}>"</div>
-        </div>
-        <div style={{ maxWidth: 900, margin: "0 auto", position: "relative", zIndex: 2 }}>
-          <p className="mquote" style={{ color: "#f8f5f0", marginBottom: 48 }}>
-            食と空間が織りなす、忘れられない体験。<br />
-            <span style={{ color: "#c4b8a8" }}>That is what we create for you.</span>
-          </p>
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div style={{ width: 40, height: 1, background: "#4a3e2e" }} />
-            <span style={{ fontFamily: "'Raleway', sans-serif", fontSize: 10, letterSpacing: "0.3em", color: "#4a3e2e", textTransform: "uppercase" }}>UNE TABLE Philosophy</span>
-          </div>
-        </div>
-      </section>
-
-      {/* Gallery */}
-      <section id="gallery" style={{ padding: "120px 8vw", background: "#f0ebe3" }}>
-        <div style={{ maxWidth: 1300, margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: "'EB Garamond', serif", fontSize: "clamp(32px, 4vw, 52px)", fontStyle: "italic", fontWeight: 300 }}>Gallery</h2>
-            <span style={{ fontFamily: "'Raleway', sans-serif", fontSize: 9, letterSpacing: "0.4em", color: "#8a7a6a", textTransform: "uppercase", fontWeight: 300 }}>Hover to explore</span>
-          </div>
-          <div className="gallery-row">
-            {[
-              ["#c4b09a", "#a89080"],
-              ["#8a7060", "#6a5040"],
-              ["#d4c4b0", "#c0b0a0"],
-              ["#b0a090", "#9a8878"],
-            ].map(([c1, c2], i) => (
-              <div key={i} style={{ background: `linear-gradient(160deg, ${c1}, ${c2})`, display: "flex", alignItems: "flex-end", padding: 20 }}>
-                <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 11, letterSpacing: "0.3em", color: "rgba(255,255,255,0.4)", textTransform: "uppercase" }}>{["Cocktail", "Standing", "Private", "Special"][i]}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact */}
-      <section id="contact" style={{ padding: "120px 8vw", background: "#f8f5f0" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "flex-start" }}>
-          <div>
-            <div style={{ fontFamily: "'Raleway', sans-serif", fontSize: 9, letterSpacing: "0.4em", color: "#8a7a6a", textTransform: "uppercase", fontWeight: 300, marginBottom: 20 }}>
-              Reservation
-            </div>
-            <h2 style={{ fontFamily: "'EB Garamond', serif", fontSize: "clamp(36px, 5vw, 64px)", fontStyle: "italic", fontWeight: 300, lineHeight: 1.1, marginBottom: 32 }}>
-              Reserve<br />Your Table
-            </h2>
-            <p style={{ fontFamily: "'Noto Serif JP', serif", fontSize: 13, fontWeight: 200, lineHeight: 2.2, color: "#6a5a4a", marginBottom: 40 }}>
-              特別な空間のご予約・お問い合わせはこちらから。専任スタッフが丁寧にご対応いたします。
-            </p>
-            <div style={{ display: "flex", gap: 32 }}>
-              {[["Phone", "0X-XXXX-XXXX"], ["Email", "info@unetable.jp"]].map(([label, value]) => (
-                <div key={label}>
-                  <div style={{ fontFamily: "'Raleway', sans-serif", fontSize: 9, letterSpacing: "0.3em", color: "#a09080", textTransform: "uppercase", fontWeight: 300, marginBottom: 6 }}>{label}</div>
-                  <div style={{ fontFamily: "'EB Garamond', serif", fontSize: 15, color: "#1a1510" }}>{value}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
-            {["お名前", "メールアドレス", "ご希望日時", "ご要望・メッセージ"].map((label, i) => (
-              <div key={label} className="form-field">
-                <label className="form-label">{label}</label>
-                {i === 3
-                  ? <textarea className="form-input" rows={4} style={{ resize: "none" }} />
-                  : <input className="form-input" type="text" />
-                }
-              </div>
-            ))}
-            <button style={{
-              background: "#1a1510", color: "#f8f5f0", border: "none",
-              padding: "16px 0", fontFamily: "'Raleway', sans-serif", fontSize: 10,
-              letterSpacing: "0.35em", textTransform: "uppercase", cursor: "none",
-              fontWeight: 300, transition: "background 0.4s", marginTop: 8,
-            }}
-              onMouseEnter={e => e.currentTarget.style.background = "#3a2e20"}
-              onMouseLeave={e => e.currentTarget.style.background = "#1a1510"}>
-              Send Inquiry
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer style={{ padding: "40px 8vw", background: "#1a1510", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-        <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 20, letterSpacing: "0.5em", color: "#3a2e20" }}>{CONFIG.brandName}</div>
-        <p style={{ fontFamily: "'Raleway', sans-serif", fontSize: 9, letterSpacing: "0.25em", color: "#3a2e20", fontWeight: 300 }}>© 2024 UNE TABLE. All rights reserved.</p>
-      </footer>
-    </div>
-  );
-}
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Pattern3 />);
+    </script>
+</body>
+</html>
